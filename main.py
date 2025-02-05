@@ -17,8 +17,12 @@ BLACK = (0, 0, 0)
 
 # Variables de juego
 ball = pygame.Rect(WIDTH//2, HEIGHT//2, 15, 15)
-paddle1 = pygame.Rect(WIDTH//30, HEIGHT//2 - 40, 10, 80)
-paddle2 = pygame.Rect(WIDTH - (WIDTH//30) - 10, HEIGHT//2 - 40, 10, 80)
+paddle_height = int(HEIGHT * 0.16)
+paddle_width = int(WIDTH * 0.03)
+paddle1 = pygame.Rect(WIDTH//30, HEIGHT//2 -
+                      paddle_height//2, paddle_width, paddle_height)
+paddle2 = pygame.Rect(WIDTH - (WIDTH//30) - paddle_width, HEIGHT //
+                      2 - (paddle_height)//2, paddle_width, paddle_height)
 ball_speed = [random.choice([-5, 5]), random.choice([-5, 5])]
 paddle_speed = 7
 
@@ -82,16 +86,19 @@ while running:
         score2 += 1
         ball.x, ball.y = WIDTH//2, HEIGHT//2
         ball_speed = [random.choice([-5, 5]), random.choice([-5, 5])]
+        paddle_speed = 7
         # score_sound.play()  # Sonido cuando se anota un gol
     if ball.right >= WIDTH:
         score1 += 1
         ball.x, ball.y = WIDTH//2, HEIGHT//2
         ball_speed = [random.choice([-5, 5]), random.choice([-5, 5])]
+        paddle_speed = 7
         # score_sound.play()  # Sonido cuando se anota un gol
 
     # Aceleración de la pelota
     if ball.colliderect(paddle1) or ball.colliderect(paddle2):
-        ball_speed[0] *= 1.1  # Incrementa la velocidad en cada rebote
+        ball_speed[0] += 2.0  # Incrementa la velocidad en cada rebote
+        paddle_speed += 2.0  # Incrementa la velocidad de las palas
 
     pygame.display.flip()
     clock.tick(60)
